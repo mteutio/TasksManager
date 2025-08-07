@@ -32,16 +32,13 @@ class PrioritiesController extends AppController
      */
     public function view($id = null)
     {
-         $CurrentUser = $this->Authentication->getResult()->getData();
-        $id= $CurrentUser->id;
-
         $priority = $this->Priorities->get($id, contain: ['Tasks']);
         $priorities = $this->Priorities->find()
-    ->where([
-        'OR' => [
-            'user_id IS' => null,
-            'user_id' => $id
-        ]
+        ->where([
+            'OR' => [
+                'user_id IS' => null,
+                'user_id' => $this->currentUser->id
+            ]
     ])
     ->all();
 
